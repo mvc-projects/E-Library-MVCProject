@@ -1,0 +1,116 @@
+﻿@model MVCProjectVIdent.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "profile";
+}
+
+@if (Model.firstLogin)
+{
+    <div class="alert alert-danger">
+        You Must Edit Profile Firstly ...
+    </div>
+}
+<div style="width: 80%;text-align: center">
+    <h2 class="text-primary">User Profile</h2>
+    <div class="form-group" style="text-align: center; margin-top: 20px">
+        @if (Model.image != null)
+        {
+            <img src="@String.Format("data:image/png;base64,{0}", System.Convert.ToBase64String(Model.image))" style="width: 100px;height: 100px" class="img-circle"/>
+        }
+        else
+        {
+            <img src="~/Images/Accounts/Default.png" style="width: 100px;height: 100px" class="img-circle"/>
+        }
+    </div>
+    <div>
+        
+        <form action="uploadImage" method="post" enctype="multipart/form-data">
+            <div class="file-field">
+                <div class="btn btn-primary btn-sm float-left">
+                    <input type="file" class="custom-file-input" name="image" placeholder="Upload Image" accept="image/x-png"/>
+                    <button type="submit" class="btn btn-warning"><span style="color: black;font-size: medium">Upload</span></button>
+                </div>
+            </div>
+        </form>
+        <form id="editformprofile" action="profile" method="post">
+            <div style="padding: 20px;margin: 10px;">
+                <button id="btnEdit" onclick="$('.profile-form').show(1000);$('#btnEdit').hide(1000);$('#btnSave').show(1000);$('#btnCancel').show(1000);$('.profile-data').hide(1000)" type="button" class="btn btn-info">Edit Profile</button>
+                <button  id="btnSave" style="display:none" type="submit" class="btn btn-success" onclick="if (!$('#editformprofile').valid()) { return false; } else { $('#btnSave').hide(1000);$('#btnCancel').hide(1000);$('#btnEdit').show(1000); }">Save Profile</button>
+                <button  id="btnCancel" style="display:none; margin-left: 10px;" onclick="$('.profile-form').hide(1000);$('#btnEdit').show(1000);$('#btnSave').hide(1000);$('#btnCancel').hide(1000);$('.profile-data').show(1000)" type="reset" class="btn btn-danger">Cancel</button>
+            </div>
+            @Html.ActionLink("Change Password", "ChangePassword", "Manage", routeValues: null, htmlAttributes: new { @class="btn btn-danger" })
+
+
+            <table class="table table-responsive" style="font-family: sans-serif;font-size: medium;font-weight: bold;margin-top: 20px">
+                <tr>
+                    <td><span>Welcom: </span></td>
+                    <td>
+                        <div class="profile-data">
+                            @Html.DisplayFor(model => model.fName)
+                            @Html.DisplayFor(model => model.lName)
+                        </div>
+                        <div class="profile-form" style="display: none;">
+                            @Html.EditorFor(model => model.fName, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => model.fName, "", new {@class = "text-danger"})
+                            @Html.EditorFor(model => model.lName, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => model.lName, "", new {@class = "text-danger"})
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.birthDate)</td>
+                    <td>
+                        <div class="profile-data">@Html.DisplayFor(model => model.birthDate)</div>
+                        <div class="profile-form" style="display: none;">
+                            @Html.EditorFor(model => model.birthDate, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => model.birthDate, "", new {@class = "text-danger"})
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.address)</td>
+                    <td>
+                        <div class="profile-data"> @Html.DisplayFor(model => model.address)</div>
+                        <div class="profile-form" style="display: none;">
+                            @Html.EditorFor(model => model.address, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => model.address, "", new {@class = "text-danger"})
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.PhoneNumber)</td>
+                    <td>
+                        <div class="profile-data">@Html.DisplayFor(model => model.PhoneNumber)</div>
+                        <div class="profile-form" style="display: none;">
+                            @Html.EditorFor(model => model.PhoneNumber, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => model.PhoneNumber, "", new {@class = "text-danger"})
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.Email)</td>
+                    <td>
+                        <div class="profile-data"> @Html.DisplayFor(model => model.Email)</div>
+                        <div class="profile-form" style="display: none;">
+                            @Html.EditorFor(model => model.Email, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => model.Email, "", new {@class = "text-danger"})
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>@*@Html.DisplayNameFor(model => model.JoinDate)*@ <span>HireDate</span> </td>
+                    <td>@Html.DisplayFor(model => model.JoinDate)</td>
+                </tr>
+                @if (User.IsInRole(MyRole.Admin) || User.IsInRole(MyRole.Employee))
+                {
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.salary)</td>
+                        <td> @Html.DisplayFor(model => model.salary)</td>
+                    </tr>
+                }
+            </table>
+        </form>
+    </div>
+</div>
+
+

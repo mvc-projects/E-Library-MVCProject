@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="row" style="margin: 20px">
+    @if (Request.IsAuthenticated)
+    {
+        Html.RenderAction("MyNotifications", "Home");
+    }
+</div>
+</br>
+</br></br></br>
+

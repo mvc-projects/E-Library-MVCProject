@@ -1,0 +1,89 @@
+﻿@model IEnumerable<MVCProjectVIdent.Models.Book>
+
+@{
+    ViewBag.Title = "MostBorrowerdBooks";
+}
+
+<h2>MostBorrowerdBooks</h2>
+@if (Model.Any())
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author.email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Publisher.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.copiesCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.availableCopies)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.cover)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.publishDate)
+            </th>
+            <th>Borrowed Count</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author.fName)
+                    @Html.DisplayFor(modelItem => item.Author.lName)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Publisher.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.copiesCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.availableCopies)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.cover)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.publishDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.userBooks.Count)
+
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <div class="alert alert-danger text-center">No Data</div>
+}

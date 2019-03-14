@@ -1,0 +1,38 @@
+﻿@model IEnumerable<MVCProjectVIdent.Models.Notification>
+
+<style>
+    .isNotSeen {
+        background-color: lightgrey;
+    }
+</style>
+<div class="list-group  col-sm-4">
+    @foreach (var item in Model)
+    {
+        string className = item.isSeen ? "" : "isNotSeen";
+        <a href="#" id="NT_@item.id" onclick="updateNotification(@item.id)" class="list-group-item list-group-item-action flex-column align-items-start @className">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">@Html.DisplayFor(modelItem => item.Title)</h5>
+                <small>@Html.DisplayFor(modelItem => item.CreatedAt)</small>
+            </div>
+            <small>@Html.DisplayFor(modelItem => item.Message)</small>
+        </a>  
+    }
+</div>
+
+
+<script>
+    function updateNotification(id)
+    {
+        $.ajax({
+            url: '/Home/updateNotification/' + id,
+            method: "POST",
+            success: function () {
+                $(`#NT_${id}`).removeClass("isNotSeen");
+            },
+            error: function (e) {
+                // console.log(e);
+                bootbox.alert(e.statusText);
+            }
+        });
+    }
+</script>

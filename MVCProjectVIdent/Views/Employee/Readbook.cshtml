@@ -1,0 +1,37 @@
+﻿
+@model UserBook
+@{
+    ViewBag.Title = "Readbook";
+}
+
+<h2>Read Book</h2>
+
+
+<form method="post" class="form-horizontal">
+
+    @Html.ValidationSummary()
+    <div class="form-group">
+        @Html.Label("Book Name", new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-5">
+            @Html.Label("Book Name", (string)ViewBag.book.name, new { @class = "form-control" })
+        </div>
+        <div>
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("choose Member", new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-5">
+
+            @Html.DropDownListFor(a => a.Memberid, ViewBag.member as SelectList, "select Member", new { @class = "form-control", required = "required" })
+        </div>
+        <div>
+            @Html.ValidationMessageFor(a => a.Memberid)
+        </div>
+    </div>
+    @Html.HiddenFor(a => a.Bookid)
+    <input type="submit" value="add" class="btn btn-primary" />
+
+</form>
+

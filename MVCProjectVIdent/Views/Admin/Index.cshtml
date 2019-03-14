@@ -1,0 +1,127 @@
+﻿@model IEnumerable<MVCProjectVIdent.Models.ApplicationUser>
+
+@{
+    /**/
+
+    ViewBag.Title = "Index";
+}
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
+
+<h2 class="text-primary">Users List</h2>
+
+<div class="mt-20 mb-20">
+    <a href="@Url.Action("Create")" class="btn btn-primary">
+        <span class="glyphicon glyphicon-plus"></span>
+        Add New
+    </a>
+</div>
+@using (Html.BeginForm())
+{
+    <table id="tb" class="table table-striped table-bordered table table-responsive">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.fName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.lName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.salary)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.JoinDate)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.fName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.lName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.salary)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.JoinDate)
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            @Html.ActionLink("Edit", "Edit", new {Id = item.Id}, new {@class = "btn btn-success"})
+                            @*<a class="edit btn btn-success" title="Edit" style="height: 34px"><i class="material-icons md-18">&#xE254;</i></a>*@
+                        </div>
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-danger btnDelete js-delete" data-id="@item.Id">Delete</button>
+                            @*<a data-id="@item.Id" class="delete btn btn-danger" title="Delete" data-toggle="tooltip" style="height: 34px"><i class="material-icons md-18">&#xE872;</i></a>*@
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@*<p>@Html.ActionLink("Create New", "Create")</p>*@
+
+
+@section scripts
+{
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <script>
+        $(function () {
+            $('#tb').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": true,
+                "pagingType": "full_numbers"
+            });
+
+            $('.btnDelete').on('click',
+                function () {
+                    var btn = $(this);
+                    console.log(btn.data('id'))
+
+                    bootbox.confirm("Are you sure that you need to delete this User?", function (result) {
+                        if (result) {
+                            $.ajax({
+                                url: '/Admin/remove/' + btn.data('id'),
+                                method: "DELETE",
+                                success: function () {
+                                    bootbox.alert('user deleted successfully');
+                                    btn.parents('tr').fadeOut();
+                                },
+                                error: function (e) {
+                                    // console.log(e);
+                                    bootbox.alert(e.statusText);
+                                }
+                            });
+                        }
+                    });
+
+                });
+
+        });
+    </script>
+}

@@ -1,0 +1,40 @@
+﻿@model MVCProjectVIdent.ViewModels.UsersWithRuleViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h3 class="text-primary mt-20 mb-20">Add New Admin</h3>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.LabelFor(m => m.fName, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.fName, new { @class = "form-control", @autofocus = "autofocus", @maxlength = "255" })
+        @Html.ValidationMessageFor(m => m.fName, null, new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.lName, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.lName, new { @class = "form-control", @autofocus = "autofocus", @maxlength = "255" })
+        @Html.ValidationMessageFor(m => m.lName, null, new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Username, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @autofocus = "autofocus", @maxlength = "255" })
+        @Html.ValidationMessageFor(m => m.Username, null, new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.salary, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.salary, new { @class = "form-control", @Value = "" })
+        @Html.ValidationMessageFor(m => m.salary, null, new { @class = "text-danger" })
+    </div>
+
+    <div>
+        <button type="submit" class="btn btn-primary">ADD</button>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
