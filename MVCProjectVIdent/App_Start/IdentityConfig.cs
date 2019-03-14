@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -14,16 +18,39 @@ using MVCProjectVIdent.Models;
 
 namespace MVCProjectVIdent
 {
-    public class EmailService : IIdentityMessageService
-    {
-        public Task SendAsync(IdentityMessage message)
-        {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
-        }
-    }
 
-    public class SmsService : IIdentityMessageService
+	public class EmailService : IIdentityMessageService
+	{
+		public Task SendAsync(IdentityMessage message)
+		{
+			#region formatter
+
+			string text = message.Subject;
+			string html = message.Body;
+
+			html += HttpUtility.HtmlEncode(@"Or click on the copy the following link on the browser:" + message.Body);
+
+			#endregion
+
+			MailMessage msg = new MailMessage();
+			msg.From = new MailAddress("joe@contoso.com");
+			msg.To.Add(new MailAddress(message.Destination));
+			msg.Subject = message.Subject;
+			msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(text, null, MediaTypeNames.Text.Plain));
+			msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html));
+
+			SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", Convert.ToInt32(587));
+			System.Net.NetworkCredential credentials = new System.Net.NetworkCredential("joe@contoso.com", "XXXXXX");
+			smtpClient.Credentials = credentials;
+			smtpClient.EnableSsl = true;
+			smtpClient.Send(msg);
+			return Task.FromResult(0);
+		}
+
+	}
+
+
+	public class SmsService : IIdentityMessageService
     {
         public Task SendAsync(IdentityMessage message)
         {

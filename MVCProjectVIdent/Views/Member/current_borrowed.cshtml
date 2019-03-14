@@ -1,0 +1,61 @@
+﻿@model IEnumerable<UserBook>
+@{
+    ViewBag.Title = "current_borrowed";
+
+}
+
+<h2>current_borrowed</h2>
+<table class=" table table-hover table-bordered table-striped  col-sm-10">
+    <thead class="table">
+    <tr>
+        <th>Name</th>
+        <th>Returned Date</th>
+        <th>Category</th>
+        <th>Auther</th>
+        <th>Publisher</th>
+        <th>---</th>
+         
+           
+    </tr>
+    </thead>
+    <tbody>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <th>@item.Book.name</th>
+            
+            <th>@item.Book.Category.name</th>
+            <th>@item.Book.Author.fName @item.Book.Author.lName</th>
+            <th>@item.Book.Publisher.name</th>
+            <th>@item.returnDate</th>
+            
+            @{
+                int x = (DateTime.Now.Day) - (item.returnDate.Value.Day);
+
+                if ( DateTime.Now.Month==item.returnDate.Value.Month && DateTime.Now.Day > item.returnDate.Value.Day)
+                {
+                    <th style="text-decoration-line:underline ; color:red;"> before @x days</th>
+                }
+                else
+                {
+                    @*<th style="text-decoration-line:underline ; color:green;">  @x days left</th>*@
+                    <th></th>
+
+                }
+
+            }
+
+
+
+        </tr>
+
+    }
+         
+    </tbody>
+
+</table>
+
+
+

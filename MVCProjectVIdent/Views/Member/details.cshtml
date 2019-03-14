@@ -1,0 +1,30 @@
+﻿@model Book
+@{
+    ViewBag.Title = "viewBook";
+    Layout = "~/Views/Shared/pop_layout.cshtml";
+    
+}
+
+
+<div class="row">
+    <div class="col-sm-4">
+        <img src="~/Images/Books/@Model.cover" style="width:150px; height:200px;" />
+    </div>
+    <div class="col-sm-8" >
+        <dl>
+            <dt>Name</dt>
+            <dd>@Model.name</dd>
+            <dt>Category</dt>
+            <dd>@Model.Category.name</dd>
+            <dt>Publisher</dt>
+            <dd>@Model.Publisher.name</dd>
+            <dt>Auther</dt>
+            <dd>@Model.Author.fName @Model.Author.lName</dd>
+            <dt>Publish Date</dt>
+            <dd>@Model.publishDate</dd>
+        </dl>
+        
+    </div>
+
+</div>
+

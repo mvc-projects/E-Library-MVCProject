@@ -121,7 +121,10 @@ namespace MVCProjectVIdent.Controllers
                 newBook.cover = book.cover!=null?book.cover:newBook.cover;
                 newBook.name = book.name;
                 newBook.publishDate = book.publishDate;
-
+	            if (book.cover != null)
+	            {
+		            newBook.cover = book.cover;
+	            }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

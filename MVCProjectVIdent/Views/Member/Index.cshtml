@@ -1,0 +1,122 @@
+﻿@model IEnumerable<Book>
+@{
+    ViewBag.Title = "Index";
+
+}
+
+
+<div class="container-fluid">
+    <h1 style="text-align:center;">New Arrival Books</h1>
+    <div class="row">
+        @using (Html.BeginForm("index", "member", FormMethod.Get))
+        {
+            <div class="from-group">
+                <div class="input-group">
+
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                    <input type="text" id="search_word" name="search_word" placeholder="search.." class="form-control" />
+
+                </div>
+            </div>
+        }
+
+    </div>
+
+    <div class="row" style="margin-left:50px;">
+        @foreach (var item in Model)
+        {
+            <div class="search  col-sm-6 col-md-4 col-lg-3" style="margin-top:30px; text-align:center;">
+                <div id="div" style=" text-align:center; ">
+                    <div>
+                        <div style="margin:5px;"> <img style="width:130px; height:200px;" src="/member/show_book_img/@item.id" /> </div>
+
+                        <div style="font-family:Tahoma;margin:5px;">@item.name</div>
+
+                        <div style="visibility:hidden">@item.Category.name</div>
+                        <div style="margin:5px;">
+                            @Ajax.ActionLink("Details", "details", "member", new { id = item.id }, new AjaxOptions()
+                            {
+                            UpdateTargetId = "mdbdy",
+                            InsertionMode = InsertionMode.Replace,
+                            OnComplete = "popFun"
+
+                            }, new { @class = "btn btn-info" })
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        }
+
+
+
+
+    </div>
+    <div class="modal" id="div3">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Book Details
+                </div>
+                <div class="modal-body" id="mdbdy">
+
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="close  btn btn-danger" data-dismiss="modal">&times;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+@section scripts
+{
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+
+            function contains(text_one, text_two) {
+                if (text_one.indexOf(text_two) != -1)
+                    return true;
+
+            }
+            $("#search_word").keyup(function () {
+                var txt_search = $("#search_word").val().toLowerCase();
+                $(".search").each(function () {
+                    if (!contains($(this).text().toLowerCase(), txt_search)) {
+                        $(this).hide();
+                    }
+                    else {
+                        $(this).show();
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+
+        function popFun() {
+
+            $("#div3").modal({ show: true })
+        }
+    </script>
+
+}
+<div class="row">
+
+    <div class="col-sm-12" style="text-align:center; margin-top:200px;">
+
+
+    </div>
+
+</div>
+
+
+

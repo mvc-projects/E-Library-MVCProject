@@ -24,6 +24,9 @@ namespace MVCProjectVIdent.Models
         public virtual  ApplicationUser User { get; set; }
         public virtual ApplicationUser NotifyUser { get; set; }
 
-
+	    public override string ToString()
+	    {
+		    return $"{(User!=null?User.Email:"")}-{Title}-{Message}-{(NotifyUser!=null?NotifyUser.Email:"")}-{ToGroup}-{CreatedAt.ToString()}";
+	    }
     }
 }

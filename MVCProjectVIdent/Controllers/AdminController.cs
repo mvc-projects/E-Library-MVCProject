@@ -9,9 +9,11 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using MVCProjectVIdent.Models;
+using Newtonsoft.Json;
 
 namespace MVCProjectVIdent.Controllers
 {
@@ -139,12 +141,17 @@ namespace MVCProjectVIdent.Controllers
                     Title = "Update Data"
                 };
 
-                db.Notifications.Add(notify1);
+			
+
+				db.Notifications.Add(notify1);
                 db.Notifications.Add(notify2);
 
 
-                db.SaveChanges();
-                return RedirectToAction(nameof(Index));
+               
+	            um.SendEmail(User.Identity.GetUserId(), "Update Data", JsonConvert.SerializeObject(notify1.ToString()));
+	            um.SendEmail(User.Identity.GetUserId(), "Update Data", JsonConvert.SerializeObject(notify2.ToString()));
+	            db.SaveChanges();
+				return RedirectToAction(nameof(Index));
 
             }
             return View(adminModel);
@@ -169,7 +176,25 @@ namespace MVCProjectVIdent.Controllers
             user.isDeleted = true;
             //db.Users.Remove(user);
             db.SaveChanges();
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
+	       
+	        var notify2 = new Notification()
+	        {
+		        CreatedAt = DateTime.Now,
+		        UserId = User.Identity.GetUserId(),
+		        ToGroup = MyRole.BasicAdmin,
+		        Message = $"User : {user.UserName} removed By {User.Identity.GetUserName()} ",
+		        Title = "remove Data"
+	        };
+
+
+
+	        db.Notifications.Add(notify2);
+
+
+	        um.SendEmail(User.Identity.GetUserId(), "Update Data", JsonConvert.SerializeObject(notify2.ToString()));
+	        um.SendEmail(user.Id, "Update Data", JsonConvert.SerializeObject(notify2.ToString()));
+	        db.SaveChanges();
+			return new HttpStatusCodeResult(HttpStatusCode.OK);
         }  
     }
 }

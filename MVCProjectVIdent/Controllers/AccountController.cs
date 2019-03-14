@@ -128,11 +128,19 @@ namespace MVCProjectVIdent.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    if (db.Users.FirstOrDefault(c=>c.UserName == model.Email).isDeleted)
+	                var user = db.Users.FirstOrDefault(c => c.UserName == model.Email);
+					if (user !=null && user.isDeleted)
                     {
                         ModelState.AddModelError("", "Your Account Dosn't Exsist Yet.");
                         return View(model);
                     }
+	                var member = db.Members.FirstOrDefault(c => c.id == user.Id);
+
+	                if (member !=null && member.isBlock)
+	                {
+		                ModelState.AddModelError("", "Your Account Blocked Or Not Activated");
+		                return View(model);
+					}
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -212,6 +220,10 @@ namespace MVCProjectVIdent.Controllers
 				var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+					var member = new Member(){id = user.Id,isBlock = false};
+	                db.Members.Add(member);
+	                UserManager.AddToRole(user.Id, MyRole.Member);
+	                db.SaveChanges();
 					await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
@@ -328,20 +340,20 @@ namespace MVCProjectVIdent.Controllers
             return View();
         }
 
-        //
-        //// POST: /Account/ExternalLogin
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult ExternalLogin(string provider, string returnUrl)
-        //{
-        //    // Request a redirect to the external login provider
-        //    return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
-        //}
+		//
+		//// POST: /Account/ExternalLogin
+		[HttpPost]
+		[AllowAnonymous]
+		[ValidateAntiForgeryToken]
+		public ActionResult ExternalLogin(string provider, string returnUrl)
+		{
+			// Request a redirect to the external login provider
+			return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
+		}
 
-        //
-        // GET: /Account/SendCode
-        [AllowAnonymous]
+		//
+		// GET: /Account/SendCode
+		[AllowAnonymous]
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
         {
             var userId = await SignInManager.GetVerifiedUserIdAsync();

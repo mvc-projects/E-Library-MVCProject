@@ -45,24 +45,16 @@ namespace MVCProjectVIdent
             // This is similar to the RememberMe option when you log in.
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
 
-            // Uncomment the following lines to enable logging in with third party login providers
-            //app.UseMicrosoftAccountAuthentication(
-            //    clientId: "",
-            //    clientSecret: "");
+			// Uncomment the following lines to enable logging in with third party login providers
+			app.UseMicrosoftAccountAuthentication(
+		        clientId: "66c19b36-fd1c-44ce-816e-bde993923361",
+		        clientSecret: "uywmfMRQ39;@bvBTIU571?#");
 
-            //app.UseTwitterAuthentication(
-            //   consumerKey: "",
-            //   consumerSecret: "");
-
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
-
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
-        }
+	        app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+	        {
+		        ClientId = "118416597455-jfravf0tocu7j9horeviolbth3f5cbn5.apps.googleusercontent.com",
+		        ClientSecret = "GEvtiYMNWUzXj0tdEOoDhV05"
+	        });
+		}
     }
 }

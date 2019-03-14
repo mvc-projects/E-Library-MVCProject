@@ -42,6 +42,16 @@
                         <li>@Html.ActionLink("Today Books", "todayDeliver", "Employee")</li>
 
                     }
+                    @if (User.IsInRole("Member"))
+                    {
+                        <li>@Html.ActionLink("Books", "viewBook", "member")</li>
+                        <li>@Html.ActionLink("Borrowed", "borrowedbooks", "member")</li>
+                        <li>@Html.ActionLink("Readed", "readedbooks", "member")</li>
+                        <li>@Html.ActionLink("Current Borrowed", "current_borrowed", "member")</li>
+
+
+
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

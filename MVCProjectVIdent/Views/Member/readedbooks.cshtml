@@ -1,0 +1,44 @@
+﻿
+@model IEnumerable<UserBook>
+@{
+    ViewBag.Title = "readedbooks";
+}
+
+<h2>readedbooks</h2>
+<div class="row">
+    <form method="post" action="">
+        <label>filter</label>
+        <input type="month" name="date" required/>
+        <input type="submit"  value="Filter"/>
+    </form>
+</div>
+<div class="row">
+    <table class="col-sm-12 col-md-10 table-bordered">
+
+        <thead style="text-align:center;font-weight:bold">
+        <tr>
+            <td>Book Name</td>
+            <td>category</td>
+            <td>Borrowerd date</td>
+            <td>Auther</td>
+
+        </tr>
+        </thead>
+        @foreach (var item in Model)
+        {
+            
+            <tr>
+                <td>@item.Book.name</td>
+                <td>@item.Book.Category.name</td>
+                <td>@item.startDate</td>
+                <td>@item.Book.Author.fName @item.Book.Author.lName</td>
+            </tr>
+            
+
+
+        }
+    </table>
+</div>
+
+
+

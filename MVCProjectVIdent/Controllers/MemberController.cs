@@ -4,13 +4,16 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using MVCProjectVIdent.Models;
 
 
 
 namespace MVCProjectVIdent.Controllers
 {
-    public class MemberController : Controller
+	[Authorize(Roles = MyRole.Member)]
+	[CheckProfile]
+	public class MemberController : Controller
     {
         ApplicationDbContext dbc = new ApplicationDbContext();
 
@@ -22,13 +25,14 @@ namespace MVCProjectVIdent.Controllers
         }
         public ActionResult current_borrowed()
         {
-            string id = Session["userId"].ToString();
+            //string id = Session["userId"].ToString();
+	        string id = User.Identity.GetUserId();
 
-            var bor = dbc.UserBook.Include("Book").Where(b => b.Memberid == id && b.status == 0 && b.isDelivered == false);
+			var bor = dbc.UserBook.Include("Book").Where(b => b.Memberid == id && b.status == 0 && b.isDelivered == false);
             return View(bor.ToList());
         }
 
-        public ActionResult viewBook(int? page)
+        public ActionResult viewBook()
         {
 
             var books = dbc.Books.Where(b => b.name != null);
@@ -54,8 +58,9 @@ namespace MVCProjectVIdent.Controllers
 
         public ActionResult borrowedbooks(string date)
         {
-            string id = Session["userId"].ToString();
-            int year;
+
+	        //string id = Session["userId"].ToString();
+	        string id = User.Identity.GetUserId(); int year;
             int month;
 
             if (date != null)
@@ -76,8 +81,9 @@ namespace MVCProjectVIdent.Controllers
         }
         public ActionResult readedbooks(string date)
         {
-            string id = Session["userId"].ToString();
-            int year;
+
+	        //string id = Session["userId"].ToString();
+	        string id = User.Identity.GetUserId(); int year;
             int month;
 
             if (date != null)

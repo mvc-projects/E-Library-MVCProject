@@ -13,9 +13,11 @@ namespace MVCProjectVIdent.Models
         public const string Admin = "Admin";
         public const string Employee = "Employee";
         public const string Member = "Member";
-	    public const string BasicAdmin_Admin = "BasicAdmin,Admin";
+	    public const string BasicAdmin_Admin = "BasicAdmin,Admin"; 
+	    public const string BasicAdmin_Admin_Employee = "BasicAdmin,Admin,Employee"; 
+
 	}
-    public class MyDataType
+	public class MyDataType
     {
        
         public enum BookStatus

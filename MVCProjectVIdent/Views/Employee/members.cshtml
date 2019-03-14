@@ -6,6 +6,9 @@
 
 <h2>Blocked Members</h2>
 
+<input type="text" id="searchMembers" placeholder="Search" />
+@*<input type="submit" value="auto" /><br /><br />*@
+
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -25,7 +28,7 @@
             {
                 if (item.isBlock == true)
                 {
-                    <tr>
+                    <tr class="Search">
                         <td>@item.id</td>
                         <td>@item.ApplicationUser.fName</td>
                         <td>@item.ApplicationUser.lName</td>
@@ -82,7 +85,7 @@
             {
                 if (item.isBlock == false)
                 {
-                    <tr>
+                    <tr class="Search">
                         <td>@item.id</td>
                         <td>@item.ApplicationUser.fName</td>
                         <td>@item.ApplicationUser.lName</td>
@@ -133,8 +136,63 @@
 </div>
 
 @section scripts{
-    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+    <script src="~/Scripts/jquery-3.3.1.min.js">
+    </script>
     <script>
+        $(document).ready(function () {
+            function contains(keyword1, keyword2) {
+                if (keyword1.indexOf(keyword2) != -1) {
+                    return true;
+                }
+            }
+            $("#searchMembers").keyup(function () {
+                var searchText = $("#searchMembers").val().toLowerCase();
+                $(".Search").each(function () {
+                    if (!contains($(this).text().toLowerCase(), searchText)) {
+                        $(this).hide();
+                    }
+                    else {
+                        $(this).show();
+                    }
+                });
+            });
+        });
+    </script>
+    <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#searchMembers").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '@Url.Action("members")',
+                        type: "post",
+                        dataType: "json",
+                        data: { prefix: request.term },
+                        success: function (data) {
+                            console.log(data)
+                            response($.map(data, function (item) {
+                                return { label: item.UserName, value: item.UserName };
+                            }))
+                        }
+                    })
+
+                },
+
+                messages: {
+                    noResults: "", results: ""
+                }
+            });
+        })
+
+
+    @*</script>
+    <script>*@
         function myfun() {
             $("#div2").modal({ show: true });
         }

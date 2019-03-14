@@ -334,11 +334,17 @@
     <Content Include="Views\Categories\Details.cshtml" />
     <Content Include="Views\Categories\Edit.cshtml" />
     <Content Include="Views\Categories\Index.cshtml" />
+    <Content Include="Views\Member\borrowedbooks.cshtml" />
+    <Content Include="Views\Member\current_borrowed.cshtml" />
+    <Content Include="Views\Member\details.cshtml" />
+    <Content Include="Views\Member\Index.cshtml" />
+    <Content Include="Views\Member\readedbooks.cshtml" />
+    <Content Include="Views\Member\viewBook.cshtml" />
+    <Content Include="Views\Shared\pop_layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Images\Books\" />
-    <Folder Include="Views\Member\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -379,7 +385,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>10586</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:10587/</IISUrl>
+          <IISUrl>http://localhost:1167/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
