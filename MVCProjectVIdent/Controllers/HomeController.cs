@@ -22,7 +22,7 @@ namespace MVCProjectVIdent.Controllers
             var user = db.Users.Find(User.Identity.GetUserId());
             var roles = um.GetRoles(user.Id).ToList();
             var notifications = db.Notifications.Where(c => c.ToUser.Equals(user.Id) || roles.Any(x=>x.Equals(c.ToGroup))).OrderByDescending(c=>c.CreatedAt);
-            return View(notifications.ToList());
+            return PartialView(notifications.ToList());
         }
 
         [HttpPost]

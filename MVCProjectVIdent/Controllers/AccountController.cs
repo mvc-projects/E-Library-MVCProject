@@ -220,7 +220,7 @@ namespace MVCProjectVIdent.Controllers
 				var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-					var member = new Member(){id = user.Id,isBlock = false};
+					var member = new Member(){id = user.Id,isBlock = true};
 	                db.Members.Add(member);
 	                UserManager.AddToRole(user.Id, MyRole.Member);
 	                db.SaveChanges();

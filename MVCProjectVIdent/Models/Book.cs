@@ -12,9 +12,10 @@ namespace MVCProjectVIdent.Models
     {
         [Key]
         public int id { get; set; }
-
+		[Range(0,5000,ErrorMessage = "Copies Count Must Be Between 0 and 5000")]
         public int copiesCount { get; set; }
-        public int availableCopies { get; set; }
+	    [Range(0, 5000, ErrorMessage = "Available Count Must Be Between 0 and 5000")]
+		public int availableCopies { get; set; }
 
         [Required]
         public string title { get; set; }
