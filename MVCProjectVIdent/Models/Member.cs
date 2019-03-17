@@ -16,6 +16,6 @@ namespace MVCProjectVIdent.Models
 
         public DateTime? endDate { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
-
+	    public List<UserBook> UserBooks { get; set; }
     }
 }
